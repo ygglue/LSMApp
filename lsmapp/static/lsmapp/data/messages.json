@@ -1,0 +1,68 @@
+{
+    "conversations": [
+        {
+            "id": 1,
+            "message": "Hi there! 👋 I've been wanting to tell you something...",
+            "choices": [
+                {
+                    "id": 1,
+                    "text": "Oh? What is it? 👀",
+                    "next": 2
+                },
+                {
+                    "id": 2,
+                    "text": "Is it something good? ✨",
+                    "next": 2
+                }
+            ]
+        },
+        {
+            "id": 2,
+            "message": "It's about how much you mean to me. Every time I see you, my day gets brighter! ☀️",
+            "choices": [
+                {
+                    "id": 3,
+                    "text": "Aww, really? 🥺",
+                    "next": 3
+                },
+                {
+                    "id": 4,
+                    "text": "That's so sweet! 💖",
+                    "next": 3
+                }
+            ]
+        },
+        {
+            "id": 3,
+            "message": "Yes, really! You have this amazing energy that just makes everything better.",
+            "choices": [
+                {
+                    "id": 5,
+                    "text": "Tell me more... 💭",
+                    "next": 4
+                },
+                {
+                    "id": 6,
+                    "text": "I feel the same way! 🥰",
+                    "next": 4
+                }
+            ]
+        },
+        {
+            "id": 4,
+            "message": "I actually prepared a little surprise for you. Are you ready to see it? 🎁",
+            "choices": [
+                {
+                    "id": 7,
+                    "text": "Yes! Show me! 🎉",
+                    "next": 999
+                },
+                {
+                    "id": 8,
+                    "text": "I'm so ready! 🏃‍♀️",
+                    "next": 999
+                }
+            ]
+        }
+    ]
+}

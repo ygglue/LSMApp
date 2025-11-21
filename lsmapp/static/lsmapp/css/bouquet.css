@@ -1,0 +1,97 @@
+/* Bouquet Page Specific Styles */
+
+@font-face {
+    font-family: 'Mindway';
+    src: url('../fonts/Mindway.otf') format('opentype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+/* We rely on bloomingflower.css for body and .flowers layout now, but we need to center the flower */
+
+.scroll-container {
+    display: none;
+}
+
+.flowers {
+    /* Center vertically and horizontally */
+    bottom: 50% !important;
+    /* Override bloomingflower.css */
+    transform: translate(-50%, 50%) scale(0.9) !important;
+    /* Center vertically */
+}
+
+.letter-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 100;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 1.5s ease;
+}
+
+.letter-content {
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    padding: 3rem;
+    border-radius: 10px;
+    max-width: 80%;
+    width: 600px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: #fff;
+    font-family: 'Mindway', sans-serif;
+    /* Custom font */
+    font-size: 2rem;
+    line-height: 1.6;
+    text-align: center;
+    white-space: pre-wrap;
+    transform: translateY(20px);
+    transition: transform 1.5s ease;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+
+    /* Scroll support */
+    max-height: 80vh;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255, 255, 255, 0.5) transparent;
+    pointer-events: auto;
+    /* Enable interaction */
+}
+
+.letter-content::-webkit-scrollbar {
+    width: 6px;
+}
+
+.letter-content::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.letter-content::-webkit-scrollbar-thumb {
+    background-color: rgba(255, 255, 255, 0.5);
+    border-radius: 20px;
+}
+
+/* Show state */
+.letter-overlay.visible {
+    opacity: 1;
+}
+
+.letter-overlay.visible .letter-content {
+    transform: translateY(0);
+}
+
+@media (max-width: 768px) {
+    .letter-content {
+        width: 90%;
+        padding: 1.5rem;
+        font-size: 1.5rem;
+        /* Smaller font on mobile */
+    }
+}
