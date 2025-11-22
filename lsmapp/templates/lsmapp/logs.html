@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interaction Logs</title>
+    <style>
+        body {
+            font-family: monospace;
+            background-color: #1a1a1a;
+            color: #00ff00;
+            padding: 20px;
+        }
+
+        .session-block {
+            border: 1px solid #333;
+            margin-bottom: 20px;
+            padding: 15px;
+            background-color: #222;
+            border-radius: 5px;
+        }
+
+        .session-header {
+            font-weight: bold;
+            color: #fff;
+            border-bottom: 1px solid #444;
+            padding-bottom: 10px;
+            margin-bottom: 10px;
+        }
+
+        .log-entry {
+            margin-left: 20px;
+            margin-bottom: 5px;
+            border-left: 2px solid #444;
+            padding-left: 10px;
+        }
+
+        .timestamp {
+            color: #888;
+            font-size: 0.8em;
+        }
+
+        .message-id {
+            color: #ffcc00;
+        }
+
+        .choice {
+            color: #00ccff;
+        }
+
+        < !DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Interaction Logs</title><style>body {
+            font-family: monospace;
+            background-color: #1a1a1a;
+            color: #00ff00;
+            padding: 20px;
+        }
+
+        .session-block {
+            border: 1px solid #333;
+            margin-bottom: 20px;
+            padding: 15px;
+            background-color: #222;
+            border-radius: 5px;
+        }
+
+        .session-header {
+            font-weight: bold;
+            color: #fff;
+            border-bottom: 1px solid #444;
+            padding-bottom: 10px;
+            margin-bottom: 10px;
+        }
+
+        .log-entry {
+            margin-left: 20px;
+            margin-bottom: 5px;
+            border-left: 2px solid #444;
+            padding-left: 10px;
+        }
+
+        .timestamp {
+            color: #888;
+            font-size: 0.8em;
+        }
+
+        .message-id {
+            color: #ffcc00;
+        }
+
+        .choice {
+            color: #00ccff;
+        }
+
+        .next-id {
+            color: #ff6666;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Interaction Logs</h1>
+
+    {% for session_id, logs in sessions.items %}
+    <div class="session-block">
+        <div class="session-header" style="display: flex; justify-content: space-between; align-items: center;">
+            <span>Session: {{ session_id }}</span>
+            <button onclick="deleteSession('{{ session_id }}')"
+                style="background: #ff4444; color: white; border: none; padding: 5px 10px; cursor: pointer; border-radius: 3px; font-size: 0.8em;">Delete</button>
+        </div>
+        {% for log in logs %}
+        <div class="log-entry">
+            <span class="timestamp">[{{ log.timestamp|date:"Y-m-d H:i:s" }}]</span>
+            <span class="message-id">Msg #{{ log.message_id }}</span>
+            --> Selected: <span class="choice">"{{ log.choice_text }}"</span>
+            --> Next: <span class="next-id">#{{ log.next_message_id }}</span>
+        </div>
+        {% endfor %}
+    </div>
+    {% empty %}
+    <p>No logs found.</p>
+    {% endfor %}
+
+    <script>
+        function deleteSession(sessionId) {
+            if (confirm('Delete logs for session ' + sessionId + '?')) {
+                fetch('/api/clear-logs/', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ session_id: sessionId })
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.status === 'success') {
+                            location.reload();
+                        } else {
+                            alert('Error deleting session: ' + (data.message || 'Unknown error'));
+                        }
+                    })
+                    .catch(err => alert('Error deleting session: ' + err));
+            }
+        }
+    </script>
+</body>
+
+</html>

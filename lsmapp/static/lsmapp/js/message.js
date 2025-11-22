@@ -8,6 +8,41 @@ document.addEventListener('DOMContentLoaded', () => {
     let currentMessageId = 1; // Start with the first message
     let typingSpeed = 50; // ms per character
 
+    // Generate or retrieve session ID
+    let sessionId = localStorage.getItem('chatSessionId');
+    if (!sessionId) {
+        sessionId = 'sess_' + Math.random().toString(36).substr(2, 9) + '_' + Date.now();
+        localStorage.setItem('chatSessionId', sessionId);
+    }
+
+    // Function to log interaction
+    function logInteraction(messageId, choiceText, nextMessageId) {
+        console.log('Logging interaction:', { sessionId, messageId, choiceText, nextMessageId });
+        fetch('/api/log-interaction/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                session_id: sessionId,
+                message_id: messageId,
+                choice_text: choiceText,
+                next_message_id: nextMessageId
+            })
+        })
+            .then(async response => {
+                console.log('Response status:', response.status);
+                const text = await response.text();
+                try {
+                    const data = JSON.parse(text);
+                    console.log('Log response data:', data);
+                } catch (e) {
+                    console.error('Failed to parse JSON response:', text);
+                }
+            })
+            .catch(err => console.error('Error logging interaction:', err));
+    }
+
     // Fetch conversation data
     fetch('/api/messages/')
         .then(response => response.json())
@@ -95,6 +130,9 @@ document.addEventListener('DOMContentLoaded', () => {
             button.appendChild(span);
 
             button.addEventListener('click', () => {
+                // Log the interaction
+                logInteraction(currentMessageId, choice.text, choice.next);
+
                 // Disable all buttons to prevent double clicks
                 const allButtons = choicesContainer.querySelectorAll('.choice-btn');
                 allButtons.forEach(btn => btn.disabled = true);
